@@ -1,0 +1,5 @@
+C:\Users\madhuri\projects\MyDB\MyDB\bin\Debug\MyDB.dacpac
+C:\Users\madhuri\projects\MyDB\MyDB\bin\Debug\MyDB.dll
+C:\Users\madhuri\projects\MyDB\MyDB\bin\Debug\MyDB.pdb
+C:\Users\madhuri\projects\MyDB\MyDB\obj\Debug\MyDB.dll
+C:\Users\madhuri\projects\MyDB\MyDB\obj\Debug\MyDB.pdb
