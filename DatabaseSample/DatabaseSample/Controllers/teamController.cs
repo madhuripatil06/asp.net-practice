@@ -5,19 +5,21 @@ using System.Web.Http;
 using System.Data.SqlClient;
 using Sql;
 using System.Configuration;
+using Queries;
 
 namespace DatabaseSample.Controllers
 {
-    public class teamController : ApiController
+    public class TeamController : ApiController
     {
-        sqlQuery operations =  new sqlQuery();
-        private SqlConnection createConnetion()
+        sqlQuery Operations =  new sqlQuery();
+        SqlQueriesForTeam Queries = new SqlQueriesForTeam();
+        private SqlConnection CreateConnetion()
         {
             var con = ConfigurationManager.ConnectionStrings["teamTable"].ConnectionString;
             return new SqlConnection(con);
         }
 
-        private IHttpActionResult executeQuery(SqlConnection connection, SqlCommand command, String message)
+        private IHttpActionResult ExecuteQuery(SqlConnection connection, SqlCommand command, String message)
         {
             connection.Open();
             try
@@ -42,10 +44,9 @@ namespace DatabaseSample.Controllers
         [Route("api/team")]
         public IHttpActionResult Getteams()
         {
-            string queryString = "SELECT username, count FROM dbo.team;";
-            using (SqlConnection connection = createConnetion())
+            using (SqlConnection connection = CreateConnetion())
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
+                SqlCommand command = new SqlCommand(Queries.GetSelectQuery(), connection);
                 connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -78,13 +79,12 @@ namespace DatabaseSample.Controllers
         [Route("api/team/{username}/{count}")]
         public IHttpActionResult AddMember(string username, int count)
         {
-            string queryString = "INSERT INTO dbo.team(username, count) VALUES(@username, @count);";
-            using (SqlConnection connection = createConnetion())
+            using (SqlConnection connection = CreateConnetion())
             {
-                SqlCommand command = operations.QueryWith2Attr(username, count);
+                SqlCommand command = Operations.QueryWithUsernameAndCount(username, count);
                 command.Connection = connection;
-                command.CommandText = queryString;
-                return executeQuery(connection, command, "inserted");
+                command.CommandText = Queries.InsertUserQuery();
+                return ExecuteQuery(connection, command, "inserted");
             }
         }
 
@@ -93,14 +93,13 @@ namespace DatabaseSample.Controllers
         [Route("api/team/{username}/{count}")]
         public IHttpActionResult EditMember(string username, int count)
         {
-            string queryString = "UPDATE dbo.team SET count= @count WHERE username=@username";
-            using (SqlConnection connection = createConnetion())
+            using (SqlConnection connection = CreateConnetion())
             {
-                SqlCommand command = operations.QueryWith2Attr(username, count);
+                SqlCommand command = Operations.QueryWithUsernameAndCount(username, count);
                 command.Connection = connection;
-                command.CommandText = queryString;
+                command.CommandText = Queries.UpdateUserQuery();
 
-                return executeQuery(connection, command, "edited");              
+                return ExecuteQuery(connection, command, "edited");              
             }
         }
 
@@ -108,14 +107,13 @@ namespace DatabaseSample.Controllers
         [Route("api/team/{username}")]
         public IHttpActionResult DeleteMember(string username)
         {
-            string queryString = "DELETE FROM dbo.team WHERE username=@username";
-            using (SqlConnection connection = createConnetion())
+            using (SqlConnection connection = CreateConnetion())
             {
-                SqlCommand command = operations.QueryWithUsername(username);
+                SqlCommand command = Operations.QueryWithUsername(username);
                 command.Connection = connection;
-                command.CommandText = queryString;
+                command.CommandText = Queries.DeleteUserQuery();
 
-                return executeQuery(connection, command, "deleted");
+                return ExecuteQuery(connection, command, "deleted");
                 
             }
         }

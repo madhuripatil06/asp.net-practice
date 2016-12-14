@@ -5,7 +5,7 @@ namespace Sql
 {
     public class sqlQuery
     {
-        public SqlCommand QueryWith2Attr(string username, int count)
+        public SqlCommand QueryWithUsernameAndCount(string username, int count)
         {
             SqlCommand command = new SqlCommand();
             SqlParameter parameterUsername = new SqlParameter("@username", SqlDbType.VarChar);
