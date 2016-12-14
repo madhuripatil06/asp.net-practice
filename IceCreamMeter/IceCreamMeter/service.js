@@ -3,7 +3,7 @@
 var TeamService = angular.module('TeamService', []);
 
 TeamService.factory('TeamApi', function ($http) {
-    var urlBase = "http://localhost:65385/api";
+    var urlBase = "http://localhost:11855/api";
     var TeamApi = {};
 
     TeamApi.getTeamMembers = function () {

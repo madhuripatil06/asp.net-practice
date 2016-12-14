@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-9 col-md-offset-1">
-            <input placeholder="type employee id" type="text" class="input-lg form-control" ng-model="txtFilter"/>
+            <input placeholder="type employee name" type="text" class="input-lg form-control" ng-model="txtFilter"/>
             <br />
             <br />
 
@@ -17,9 +17,9 @@
                     </tr>
                 </thead>
 
-                <tr ng-repeat="a in members | filter: txtFilter">
-                    <td>{{a.username}}</td>
-                    <td>{{a.count}}</td>
+                <tr ng-repeat="member in members | filter: txtFilter">
+                    <td>{{member.username}}</td>
+                    <td>{{member.count}}</td>
                 </tr>
             </table>
         </div>
